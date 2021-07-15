@@ -1,0 +1,162 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Solid API",
+    "description": "Documentation of Solid implamentation API",
+    "version": "1.0.0",
+    "contact": {
+      "email": "ismaelalves1@outlook.com.br"
+    }
+  },
+
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["Users"],
+        "sumary": "Create a User",
+        "description": "Create a new User",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "type": "object",
+                "property": {
+                  "name": { "type": "string" },
+                  "description": { "type": "string" }
+                },
+                "example": {
+                  "name": "Jhon Doe",
+                  "email": "Jhondoe@email.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Created" },
+          "400": { "description": "User already exists" }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": ["Users"],
+        "sumary": "Update user account",
+        "description": "Turn a user account a admin",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "user's ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": { "description": "User does not exists" },
+          "200": { "description": "Updated" }
+        }
+      }
+    },
+    "/{user_id}": {
+      "get": {
+        "tags": ["Users"],
+        "sumary": "List all users",
+        "description": "List a user's profile",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "User's Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List all data from user",
+            "content": {
+              "aplication/json": {
+                "example": {
+                  "id": "string",
+                  "name": "string",
+                  "email": "string",
+                  "created_at": "string",
+                  "updated_at": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User does not exists",
+            "content": {
+              "aplication/json": {
+                "example": {
+                  "Error": "User does not Exists"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/": {
+      "get": {
+        "tags": ["Users"],
+        "sumary": "List all users (Require user account)",
+        "description": "List all registers users",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "header",
+            "description": "User's admin id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List all data from user",
+            "content": {
+              "aplication/json": {
+                "example": {
+                  "id": "string",
+                  "name": "string",
+                  "email": "string",
+                  "created_at": "string",
+                  "updated_at": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User does not exists",
+            "content": {
+              "aplication/json": {
+                "example": {
+                  "Error": "User does not Exists"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User not authorizated",
+            "content": {
+              "aplication/json": {
+                "example": {
+                  "Error": "User not authorizated"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
